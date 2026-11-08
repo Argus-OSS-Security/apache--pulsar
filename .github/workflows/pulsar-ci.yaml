@@ -18,53 +18,54 @@
 #
 
 name: Pulsar CI
-on:
-  pull_request:
-    branches:
-      - master
-      - branch-*
-      - pulsar-*
-  schedule:
-    # scheduled job with JDK 25
-    - cron: '0 12 * * *'
-    # scheduled job with JDK 21
-    # if cron expression is changed, make sure to update the expression in jdk_major_version step in preconditions job
-    - cron: '0 6 * * *'
-  workflow_dispatch:
-    inputs:
-      jdk_major_version:
-        description: 'JDK major version to use for the build'
-        required: true
-        type: choice
-        options:
-          - '25'
-          - '21'
-          - '26'
-        default: '25'
-      trace_test_resource_cleanup:
-        description: 'Collect thread & heap information before exiting a test JVM. When set to "on", thread dump and heap histogram will be collected. When set to "full", a heap dump will also be collected.'
-        required: true
-        type: choice
-        options:
-          - 'off'
-          - 'on'
-          - 'full'
-        default: 'off'
-      thread_leak_detector_wait_millis:
-        description: 'Duration in ms to wait for threads to exit in thread leak detection between test classes. It is necessary to wait for threads to complete before they are determined to be leaked threads.'
-        required: true
-        type: number
-        default: 10000
-      netty_leak_detection:
-        description: 'Controls Netty leak detection. When set to "report", Netty leak detection is enabled. When set to "fail_on_leak", Netty leak detection is enabled and a build job will fail if leaks are detected. When set to "off", Netty leak detection is disabled.'
-        required: true
-        type: choice
-        options:
-          - 'report'
-          - 'fail_on_leak'
-          - 'off'
-        default: 'report'
-
+# Triggers intentionally disabled for Argus-OSS-Security.
+# on:
+#   pull_request:
+#     branches:
+#       - master
+#       - branch-*
+#       - pulsar-*
+#   schedule:
+#     # scheduled job with JDK 25
+#     - cron: '0 12 * * *'
+#     # scheduled job with JDK 21
+#     # if cron expression is changed, make sure to update the expression in jdk_major_version step in preconditions job
+#     - cron: '0 6 * * *'
+#   workflow_dispatch:
+#     inputs:
+#       jdk_major_version:
+#         description: 'JDK major version to use for the build'
+#         required: true
+#         type: choice
+#         options:
+#           - '25'
+#           - '21'
+#           - '26'
+#         default: '25'
+#       trace_test_resource_cleanup:
+#         description: 'Collect thread & heap information before exiting a test JVM. When set to "on", thread dump and heap histogram will be collected. When set to "full", a heap dump will also be collected.'
+#         required: true
+#         type: choice
+#         options:
+#           - 'off'
+#           - 'on'
+#           - 'full'
+#         default: 'off'
+#       thread_leak_detector_wait_millis:
+#         description: 'Duration in ms to wait for threads to exit in thread leak detection between test classes. It is necessary to wait for threads to complete before they are determined to be leaked threads.'
+#         required: true
+#         type: number
+#         default: 10000
+#       netty_leak_detection:
+#         description: 'Controls Netty leak detection. When set to "report", Netty leak detection is enabled. When set to "fail_on_leak", Netty leak detection is enabled and a build job will fail if leaks are detected. When set to "off", Netty leak detection is disabled.'
+#         required: true
+#         type: choice
+#         options:
+#           - 'report'
+#           - 'fail_on_leak'
+#           - 'off'
+#         default: 'report'
+# 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}${{ github.event_name == 'workflow_dispatch' && github.event.inputs.jdk_major_version || '' }}
   cancel-in-progress: true

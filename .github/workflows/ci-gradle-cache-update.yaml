@@ -28,16 +28,17 @@
 # caches in the upstream repository are up-to-date.
 
 name: CI - Gradle Dependency Cache Update
-on:
-  # trigger on every commit to given branches
-  push:
-    branches:
-      - master
-  # trigger on a schedule so that the cache will be rebuilt if it happens to expire
-  schedule:
-    - cron: '30 */12 * * *'
-  workflow_dispatch:
-
+# Triggers intentionally disabled for Argus-OSS-Security.
+# on:
+#   # trigger on every commit to given branches
+#   push:
+#     branches:
+#       - master
+#   # trigger on a schedule so that the cache will be rebuilt if it happens to expire
+#   schedule:
+#     - cron: '30 */12 * * *'
+#   workflow_dispatch:
+# 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

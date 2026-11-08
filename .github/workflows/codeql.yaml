@@ -19,13 +19,14 @@
 
 name: "CodeQL"
 
-on:
-  push:
-    branches: [ 'master' ]
-  schedule:
-    - cron: '27 21 * * 4'
-  workflow_dispatch:
-
+# Triggers intentionally disabled for Argus-OSS-Security.
+# on:
+#   push:
+#     branches: [ 'master' ]
+#   schedule:
+#     - cron: '27 21 * * 4'
+#   workflow_dispatch:
+# 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
